@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagacity.mapper.UmsPermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sagacity.entity.UmsPermission">
+        <id column="id" property="id" />
+        <result column="pid" property="pid" />
+        <result column="name" property="name" />
+        <result column="value" property="value" />
+        <result column="icon" property="icon" />
+        <result column="type" property="type" />
+        <result column="uri" property="uri" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="sort" property="sort" />
+    </resultMap>
+
+    <!-- 表名称 -->
+    <sql id="Table_Name">
+        ums_permission
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, pid, name, value, icon, type, uri, status, create_time, sort
+    </sql>
+
+    <sql id="Where_Trim">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="pid != null">
+                AND pid = #{pid}
+            </if>
+            <if test="name != null and name != ''">
+                AND name = #{name}
+            </if>
+            <if test="value != null and value != ''">
+                AND value = #{value}
+            </if>
+            <if test="icon != null and icon != ''">
+                AND icon = #{icon}
+            </if>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
+            <if test="uri != null and uri != ''">
+                AND uri = #{uri}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime}
+            </if>
+            <if test="sort != null">
+                AND sort = #{sort}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 新增数据 -->
+    <insert id="insert" parameterType="com.sagacity.entity.UmsPermission">
+        INSERT INTO <include refid="Table_Name" />(
+        <trim suffixOverrides=",">
+                id,
+                pid,
+                name,
+                value,
+                icon,
+                type,
+                uri,
+                status,
+                create_time,
+                sort,
+        </trim>
+        ) VALUE (
+        <trim suffixOverrides=",">
+                #{id},
+                #{pid},
+                #{name},
+                #{value},
+                #{icon},
+                #{type},
+                #{uri},
+                #{status},
+                #{createTime},
+                #{sort},
+        </trim>
+        )
+    </insert>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.sagacity.entity.UmsPermission">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询条数 -->
+    <select id="selectCount" parameterType="com.sagacity.entity.UmsPermission" resultType="long">
+        SELECT
+            COUNT(*)
+        FROM
+        <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询符合条件的单条数据 -->
+    <select id="selectOne" parameterType="com.sagacity.entity.UmsPermission" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+        LIMIT 1
+    </select>
+
+    <!-- 通过ID批量查询 -->
+    <select id="selectBatchIds" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <foreach item="id" index="index" collection="idList"
+                 open="WHERE id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 通过主键ID查询 -->
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        WHERE id = #{id}
+    </select>
+
+    <!-- 通过主键ID选择更新数据 -->
+    <update id="updateById" parameterType="com.sagacity.entity.UmsPermission">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="pid != null">
+                pid = #{pid},
+            </if>
+             <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+             <if test="value != null and value != ''">
+                value = #{value},
+            </if>
+             <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+             <if test="type != null">
+                type = #{type},
+            </if>
+             <if test="uri != null and uri != ''">
+                uri = #{uri},
+            </if>
+             <if test="status != null">
+                status = #{status},
+            </if>
+             <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+             <if test="sort != null">
+                sort = #{sort},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID逻辑删除 -->
+    <update id="disable" parameterType="com.sagacity.entity.UmsPermission">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="traceId != null and traceId != ''">
+                trace_id = #{traceId},
+            </if>
+            <if test="modifyBy != null and modifyBy != ''">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="activeFlag != null">
+                active_flag = #{activeFlag},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+
+</mapper>

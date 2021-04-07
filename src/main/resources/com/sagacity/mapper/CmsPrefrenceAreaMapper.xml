@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagacity.mapper.CmsPrefrenceAreaMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sagacity.entity.CmsPrefrenceArea">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="sub_title" property="subTitle" />
+        <result column="pic" property="pic" />
+        <result column="sort" property="sort" />
+        <result column="show_status" property="showStatus" />
+    </resultMap>
+
+    <!-- 表名称 -->
+    <sql id="Table_Name">
+        cms_prefrence_area
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, sub_title, pic, sort, show_status
+    </sql>
+
+    <sql id="Where_Trim">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                AND name = #{name}
+            </if>
+            <if test="subTitle != null and subTitle != ''">
+                AND sub_title = #{subTitle}
+            </if>
+            <if test="pic != null">
+                AND pic = #{pic}
+            </if>
+            <if test="sort != null">
+                AND sort = #{sort}
+            </if>
+            <if test="showStatus != null">
+                AND show_status = #{showStatus}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 新增数据 -->
+    <insert id="insert" parameterType="com.sagacity.entity.CmsPrefrenceArea">
+        INSERT INTO <include refid="Table_Name" />(
+        <trim suffixOverrides=",">
+                id,
+                name,
+                sub_title,
+                pic,
+                sort,
+                show_status,
+        </trim>
+        ) VALUE (
+        <trim suffixOverrides=",">
+                #{id},
+                #{name},
+                #{subTitle},
+                #{pic},
+                #{sort},
+                #{showStatus},
+        </trim>
+        )
+    </insert>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.sagacity.entity.CmsPrefrenceArea">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询条数 -->
+    <select id="selectCount" parameterType="com.sagacity.entity.CmsPrefrenceArea" resultType="long">
+        SELECT
+            COUNT(*)
+        FROM
+        <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询符合条件的单条数据 -->
+    <select id="selectOne" parameterType="com.sagacity.entity.CmsPrefrenceArea" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+        LIMIT 1
+    </select>
+
+    <!-- 通过ID批量查询 -->
+    <select id="selectBatchIds" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <foreach item="id" index="index" collection="idList"
+                 open="WHERE id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 通过主键ID查询 -->
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        WHERE id = #{id}
+    </select>
+
+    <!-- 通过主键ID选择更新数据 -->
+    <update id="updateById" parameterType="com.sagacity.entity.CmsPrefrenceArea">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+             <if test="subTitle != null and subTitle != ''">
+                sub_title = #{subTitle},
+            </if>
+             <if test="pic != null">
+                pic = #{pic},
+            </if>
+             <if test="sort != null">
+                sort = #{sort},
+            </if>
+             <if test="showStatus != null">
+                show_status = #{showStatus},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID逻辑删除 -->
+    <update id="disable" parameterType="com.sagacity.entity.CmsPrefrenceArea">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="traceId != null and traceId != ''">
+                trace_id = #{traceId},
+            </if>
+            <if test="modifyBy != null and modifyBy != ''">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="activeFlag != null">
+                active_flag = #{activeFlag},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+
+</mapper>

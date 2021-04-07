@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagacity.mapper.PmsProductAttributeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sagacity.entity.PmsProductAttribute">
+        <id column="id" property="id" />
+        <result column="product_attribute_category_id" property="productAttributeCategoryId" />
+        <result column="name" property="name" />
+        <result column="select_type" property="selectType" />
+        <result column="input_type" property="inputType" />
+        <result column="input_list" property="inputList" />
+        <result column="sort" property="sort" />
+        <result column="filter_type" property="filterType" />
+        <result column="search_type" property="searchType" />
+        <result column="related_status" property="relatedStatus" />
+        <result column="hand_add_status" property="handAddStatus" />
+        <result column="type" property="type" />
+    </resultMap>
+
+    <!-- 表名称 -->
+    <sql id="Table_Name">
+        pms_product_attribute
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, product_attribute_category_id, name, select_type, input_type, input_list, sort, filter_type, search_type, related_status, hand_add_status, type
+    </sql>
+
+    <sql id="Where_Trim">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="productAttributeCategoryId != null">
+                AND product_attribute_category_id = #{productAttributeCategoryId}
+            </if>
+            <if test="name != null and name != ''">
+                AND name = #{name}
+            </if>
+            <if test="selectType != null">
+                AND select_type = #{selectType}
+            </if>
+            <if test="inputType != null">
+                AND input_type = #{inputType}
+            </if>
+            <if test="inputList != null and inputList != ''">
+                AND input_list = #{inputList}
+            </if>
+            <if test="sort != null">
+                AND sort = #{sort}
+            </if>
+            <if test="filterType != null">
+                AND filter_type = #{filterType}
+            </if>
+            <if test="searchType != null">
+                AND search_type = #{searchType}
+            </if>
+            <if test="relatedStatus != null">
+                AND related_status = #{relatedStatus}
+            </if>
+            <if test="handAddStatus != null">
+                AND hand_add_status = #{handAddStatus}
+            </if>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 新增数据 -->
+    <insert id="insert" parameterType="com.sagacity.entity.PmsProductAttribute">
+        INSERT INTO <include refid="Table_Name" />(
+        <trim suffixOverrides=",">
+                id,
+                product_attribute_category_id,
+                name,
+                select_type,
+                input_type,
+                input_list,
+                sort,
+                filter_type,
+                search_type,
+                related_status,
+                hand_add_status,
+                type,
+        </trim>
+        ) VALUE (
+        <trim suffixOverrides=",">
+                #{id},
+                #{productAttributeCategoryId},
+                #{name},
+                #{selectType},
+                #{inputType},
+                #{inputList},
+                #{sort},
+                #{filterType},
+                #{searchType},
+                #{relatedStatus},
+                #{handAddStatus},
+                #{type},
+        </trim>
+        )
+    </insert>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.sagacity.entity.PmsProductAttribute">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询条数 -->
+    <select id="selectCount" parameterType="com.sagacity.entity.PmsProductAttribute" resultType="long">
+        SELECT
+            COUNT(*)
+        FROM
+        <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询符合条件的单条数据 -->
+    <select id="selectOne" parameterType="com.sagacity.entity.PmsProductAttribute" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+        LIMIT 1
+    </select>
+
+    <!-- 通过ID批量查询 -->
+    <select id="selectBatchIds" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <foreach item="id" index="index" collection="idList"
+                 open="WHERE id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 通过主键ID查询 -->
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        WHERE id = #{id}
+    </select>
+
+    <!-- 通过主键ID选择更新数据 -->
+    <update id="updateById" parameterType="com.sagacity.entity.PmsProductAttribute">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="productAttributeCategoryId != null">
+                product_attribute_category_id = #{productAttributeCategoryId},
+            </if>
+             <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+             <if test="selectType != null">
+                select_type = #{selectType},
+            </if>
+             <if test="inputType != null">
+                input_type = #{inputType},
+            </if>
+             <if test="inputList != null and inputList != ''">
+                input_list = #{inputList},
+            </if>
+             <if test="sort != null">
+                sort = #{sort},
+            </if>
+             <if test="filterType != null">
+                filter_type = #{filterType},
+            </if>
+             <if test="searchType != null">
+                search_type = #{searchType},
+            </if>
+             <if test="relatedStatus != null">
+                related_status = #{relatedStatus},
+            </if>
+             <if test="handAddStatus != null">
+                hand_add_status = #{handAddStatus},
+            </if>
+             <if test="type != null">
+                type = #{type},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID逻辑删除 -->
+    <update id="disable" parameterType="com.sagacity.entity.PmsProductAttribute">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="traceId != null and traceId != ''">
+                trace_id = #{traceId},
+            </if>
+            <if test="modifyBy != null and modifyBy != ''">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="activeFlag != null">
+                active_flag = #{activeFlag},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+
+</mapper>

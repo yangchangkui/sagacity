@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagacity.mapper.UmsMemberStatisticsInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sagacity.entity.UmsMemberStatisticsInfo">
+        <id column="id" property="id" />
+        <result column="member_id" property="memberId" />
+        <result column="consume_amount" property="consumeAmount" />
+        <result column="order_count" property="orderCount" />
+        <result column="coupon_count" property="couponCount" />
+        <result column="comment_count" property="commentCount" />
+        <result column="return_order_count" property="returnOrderCount" />
+        <result column="login_count" property="loginCount" />
+        <result column="attend_count" property="attendCount" />
+        <result column="fans_count" property="fansCount" />
+        <result column="collect_product_count" property="collectProductCount" />
+        <result column="collect_subject_count" property="collectSubjectCount" />
+        <result column="collect_topic_count" property="collectTopicCount" />
+        <result column="collect_comment_count" property="collectCommentCount" />
+        <result column="invite_friend_count" property="inviteFriendCount" />
+        <result column="recent_order_time" property="recentOrderTime" />
+    </resultMap>
+
+    <!-- 表名称 -->
+    <sql id="Table_Name">
+        ums_member_statistics_info
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, member_id, consume_amount, order_count, coupon_count, comment_count, return_order_count, login_count, attend_count, fans_count, collect_product_count, collect_subject_count, collect_topic_count, collect_comment_count, invite_friend_count, recent_order_time
+    </sql>
+
+    <sql id="Where_Trim">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="memberId != null">
+                AND member_id = #{memberId}
+            </if>
+            <if test="consumeAmount != null">
+                AND consume_amount = #{consumeAmount}
+            </if>
+            <if test="orderCount != null">
+                AND order_count = #{orderCount}
+            </if>
+            <if test="couponCount != null">
+                AND coupon_count = #{couponCount}
+            </if>
+            <if test="commentCount != null">
+                AND comment_count = #{commentCount}
+            </if>
+            <if test="returnOrderCount != null">
+                AND return_order_count = #{returnOrderCount}
+            </if>
+            <if test="loginCount != null">
+                AND login_count = #{loginCount}
+            </if>
+            <if test="attendCount != null">
+                AND attend_count = #{attendCount}
+            </if>
+            <if test="fansCount != null">
+                AND fans_count = #{fansCount}
+            </if>
+            <if test="collectProductCount != null">
+                AND collect_product_count = #{collectProductCount}
+            </if>
+            <if test="collectSubjectCount != null">
+                AND collect_subject_count = #{collectSubjectCount}
+            </if>
+            <if test="collectTopicCount != null">
+                AND collect_topic_count = #{collectTopicCount}
+            </if>
+            <if test="collectCommentCount != null">
+                AND collect_comment_count = #{collectCommentCount}
+            </if>
+            <if test="inviteFriendCount != null">
+                AND invite_friend_count = #{inviteFriendCount}
+            </if>
+            <if test="recentOrderTime != null">
+                AND recent_order_time = #{recentOrderTime}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 新增数据 -->
+    <insert id="insert" parameterType="com.sagacity.entity.UmsMemberStatisticsInfo">
+        INSERT INTO <include refid="Table_Name" />(
+        <trim suffixOverrides=",">
+                id,
+                member_id,
+                consume_amount,
+                order_count,
+                coupon_count,
+                comment_count,
+                return_order_count,
+                login_count,
+                attend_count,
+                fans_count,
+                collect_product_count,
+                collect_subject_count,
+                collect_topic_count,
+                collect_comment_count,
+                invite_friend_count,
+                recent_order_time,
+        </trim>
+        ) VALUE (
+        <trim suffixOverrides=",">
+                #{id},
+                #{memberId},
+                #{consumeAmount},
+                #{orderCount},
+                #{couponCount},
+                #{commentCount},
+                #{returnOrderCount},
+                #{loginCount},
+                #{attendCount},
+                #{fansCount},
+                #{collectProductCount},
+                #{collectSubjectCount},
+                #{collectTopicCount},
+                #{collectCommentCount},
+                #{inviteFriendCount},
+                #{recentOrderTime},
+        </trim>
+        )
+    </insert>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.sagacity.entity.UmsMemberStatisticsInfo">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询条数 -->
+    <select id="selectCount" parameterType="com.sagacity.entity.UmsMemberStatisticsInfo" resultType="long">
+        SELECT
+            COUNT(*)
+        FROM
+        <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询符合条件的单条数据 -->
+    <select id="selectOne" parameterType="com.sagacity.entity.UmsMemberStatisticsInfo" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+        LIMIT 1
+    </select>
+
+    <!-- 通过ID批量查询 -->
+    <select id="selectBatchIds" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <foreach item="id" index="index" collection="idList"
+                 open="WHERE id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 通过主键ID查询 -->
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        WHERE id = #{id}
+    </select>
+
+    <!-- 通过主键ID选择更新数据 -->
+    <update id="updateById" parameterType="com.sagacity.entity.UmsMemberStatisticsInfo">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="memberId != null">
+                member_id = #{memberId},
+            </if>
+             <if test="consumeAmount != null">
+                consume_amount = #{consumeAmount},
+            </if>
+             <if test="orderCount != null">
+                order_count = #{orderCount},
+            </if>
+             <if test="couponCount != null">
+                coupon_count = #{couponCount},
+            </if>
+             <if test="commentCount != null">
+                comment_count = #{commentCount},
+            </if>
+             <if test="returnOrderCount != null">
+                return_order_count = #{returnOrderCount},
+            </if>
+             <if test="loginCount != null">
+                login_count = #{loginCount},
+            </if>
+             <if test="attendCount != null">
+                attend_count = #{attendCount},
+            </if>
+             <if test="fansCount != null">
+                fans_count = #{fansCount},
+            </if>
+             <if test="collectProductCount != null">
+                collect_product_count = #{collectProductCount},
+            </if>
+             <if test="collectSubjectCount != null">
+                collect_subject_count = #{collectSubjectCount},
+            </if>
+             <if test="collectTopicCount != null">
+                collect_topic_count = #{collectTopicCount},
+            </if>
+             <if test="collectCommentCount != null">
+                collect_comment_count = #{collectCommentCount},
+            </if>
+             <if test="inviteFriendCount != null">
+                invite_friend_count = #{inviteFriendCount},
+            </if>
+             <if test="recentOrderTime != null">
+                recent_order_time = #{recentOrderTime},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID逻辑删除 -->
+    <update id="disable" parameterType="com.sagacity.entity.UmsMemberStatisticsInfo">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="traceId != null and traceId != ''">
+                trace_id = #{traceId},
+            </if>
+            <if test="modifyBy != null and modifyBy != ''">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="activeFlag != null">
+                active_flag = #{activeFlag},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+
+</mapper>

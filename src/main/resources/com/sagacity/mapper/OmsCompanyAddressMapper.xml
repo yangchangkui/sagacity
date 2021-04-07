@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagacity.mapper.OmsCompanyAddressMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sagacity.entity.OmsCompanyAddress">
+        <id column="id" property="id" />
+        <result column="address_name" property="addressName" />
+        <result column="send_status" property="sendStatus" />
+        <result column="receive_status" property="receiveStatus" />
+        <result column="name" property="name" />
+        <result column="phone" property="phone" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="region" property="region" />
+        <result column="detail_address" property="detailAddress" />
+    </resultMap>
+
+    <!-- 表名称 -->
+    <sql id="Table_Name">
+        oms_company_address
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, address_name, send_status, receive_status, name, phone, province, city, region, detail_address
+    </sql>
+
+    <sql id="Where_Trim">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="addressName != null and addressName != ''">
+                AND address_name = #{addressName}
+            </if>
+            <if test="sendStatus != null">
+                AND send_status = #{sendStatus}
+            </if>
+            <if test="receiveStatus != null">
+                AND receive_status = #{receiveStatus}
+            </if>
+            <if test="name != null and name != ''">
+                AND name = #{name}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND phone = #{phone}
+            </if>
+            <if test="province != null and province != ''">
+                AND province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                AND city = #{city}
+            </if>
+            <if test="region != null and region != ''">
+                AND region = #{region}
+            </if>
+            <if test="detailAddress != null and detailAddress != ''">
+                AND detail_address = #{detailAddress}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 新增数据 -->
+    <insert id="insert" parameterType="com.sagacity.entity.OmsCompanyAddress">
+        INSERT INTO <include refid="Table_Name" />(
+        <trim suffixOverrides=",">
+                id,
+                address_name,
+                send_status,
+                receive_status,
+                name,
+                phone,
+                province,
+                city,
+                region,
+                detail_address,
+        </trim>
+        ) VALUE (
+        <trim suffixOverrides=",">
+                #{id},
+                #{addressName},
+                #{sendStatus},
+                #{receiveStatus},
+                #{name},
+                #{phone},
+                #{province},
+                #{city},
+                #{region},
+                #{detailAddress},
+        </trim>
+        )
+    </insert>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.sagacity.entity.OmsCompanyAddress">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询条数 -->
+    <select id="selectCount" parameterType="com.sagacity.entity.OmsCompanyAddress" resultType="long">
+        SELECT
+            COUNT(*)
+        FROM
+        <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询符合条件的单条数据 -->
+    <select id="selectOne" parameterType="com.sagacity.entity.OmsCompanyAddress" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+        LIMIT 1
+    </select>
+
+    <!-- 通过ID批量查询 -->
+    <select id="selectBatchIds" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <foreach item="id" index="index" collection="idList"
+                 open="WHERE id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 通过主键ID查询 -->
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        WHERE id = #{id}
+    </select>
+
+    <!-- 通过主键ID选择更新数据 -->
+    <update id="updateById" parameterType="com.sagacity.entity.OmsCompanyAddress">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="addressName != null and addressName != ''">
+                address_name = #{addressName},
+            </if>
+             <if test="sendStatus != null">
+                send_status = #{sendStatus},
+            </if>
+             <if test="receiveStatus != null">
+                receive_status = #{receiveStatus},
+            </if>
+             <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+             <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+             <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+             <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+             <if test="region != null and region != ''">
+                region = #{region},
+            </if>
+             <if test="detailAddress != null and detailAddress != ''">
+                detail_address = #{detailAddress},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID逻辑删除 -->
+    <update id="disable" parameterType="com.sagacity.entity.OmsCompanyAddress">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="traceId != null and traceId != ''">
+                trace_id = #{traceId},
+            </if>
+            <if test="modifyBy != null and modifyBy != ''">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="activeFlag != null">
+                active_flag = #{activeFlag},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+
+</mapper>

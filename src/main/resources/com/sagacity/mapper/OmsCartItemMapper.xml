@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagacity.mapper.OmsCartItemMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sagacity.entity.OmsCartItem">
+        <id column="id" property="id" />
+        <result column="product_id" property="productId" />
+        <result column="product_sku_id" property="productSkuId" />
+        <result column="member_id" property="memberId" />
+        <result column="quantity" property="quantity" />
+        <result column="price" property="price" />
+        <result column="product_pic" property="productPic" />
+        <result column="product_name" property="productName" />
+        <result column="product_sub_title" property="productSubTitle" />
+        <result column="product_sku_code" property="productSkuCode" />
+        <result column="member_nickname" property="memberNickname" />
+        <result column="create_date" property="createDate" />
+        <result column="modify_date" property="modifyDate" />
+        <result column="delete_status" property="deleteStatus" />
+        <result column="product_category_id" property="productCategoryId" />
+        <result column="product_brand" property="productBrand" />
+        <result column="product_sn" property="productSn" />
+        <result column="product_attr" property="productAttr" />
+    </resultMap>
+
+    <!-- 表名称 -->
+    <sql id="Table_Name">
+        oms_cart_item
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, product_id, product_sku_id, member_id, quantity, price, product_pic, product_name, product_sub_title, product_sku_code, member_nickname, create_date, modify_date, delete_status, product_category_id, product_brand, product_sn, product_attr
+    </sql>
+
+    <sql id="Where_Trim">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="productId != null">
+                AND product_id = #{productId}
+            </if>
+            <if test="productSkuId != null">
+                AND product_sku_id = #{productSkuId}
+            </if>
+            <if test="memberId != null">
+                AND member_id = #{memberId}
+            </if>
+            <if test="quantity != null">
+                AND quantity = #{quantity}
+            </if>
+            <if test="price != null">
+                AND price = #{price}
+            </if>
+            <if test="productPic != null and productPic != ''">
+                AND product_pic = #{productPic}
+            </if>
+            <if test="productName != null and productName != ''">
+                AND product_name = #{productName}
+            </if>
+            <if test="productSubTitle != null and productSubTitle != ''">
+                AND product_sub_title = #{productSubTitle}
+            </if>
+            <if test="productSkuCode != null and productSkuCode != ''">
+                AND product_sku_code = #{productSkuCode}
+            </if>
+            <if test="memberNickname != null and memberNickname != ''">
+                AND member_nickname = #{memberNickname}
+            </if>
+            <if test="createDate != null">
+                AND create_date = #{createDate}
+            </if>
+            <if test="modifyDate != null">
+                AND modify_date = #{modifyDate}
+            </if>
+            <if test="deleteStatus != null">
+                AND delete_status = #{deleteStatus}
+            </if>
+            <if test="productCategoryId != null">
+                AND product_category_id = #{productCategoryId}
+            </if>
+            <if test="productBrand != null and productBrand != ''">
+                AND product_brand = #{productBrand}
+            </if>
+            <if test="productSn != null and productSn != ''">
+                AND product_sn = #{productSn}
+            </if>
+            <if test="productAttr != null and productAttr != ''">
+                AND product_attr = #{productAttr}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 新增数据 -->
+    <insert id="insert" parameterType="com.sagacity.entity.OmsCartItem">
+        INSERT INTO <include refid="Table_Name" />(
+        <trim suffixOverrides=",">
+                id,
+                product_id,
+                product_sku_id,
+                member_id,
+                quantity,
+                price,
+                product_pic,
+                product_name,
+                product_sub_title,
+                product_sku_code,
+                member_nickname,
+                create_date,
+                modify_date,
+                delete_status,
+                product_category_id,
+                product_brand,
+                product_sn,
+                product_attr,
+        </trim>
+        ) VALUE (
+        <trim suffixOverrides=",">
+                #{id},
+                #{productId},
+                #{productSkuId},
+                #{memberId},
+                #{quantity},
+                #{price},
+                #{productPic},
+                #{productName},
+                #{productSubTitle},
+                #{productSkuCode},
+                #{memberNickname},
+                #{createDate},
+                #{modifyDate},
+                #{deleteStatus},
+                #{productCategoryId},
+                #{productBrand},
+                #{productSn},
+                #{productAttr},
+        </trim>
+        )
+    </insert>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.sagacity.entity.OmsCartItem">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询条数 -->
+    <select id="selectCount" parameterType="com.sagacity.entity.OmsCartItem" resultType="long">
+        SELECT
+            COUNT(*)
+        FROM
+        <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询符合条件的单条数据 -->
+    <select id="selectOne" parameterType="com.sagacity.entity.OmsCartItem" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+        LIMIT 1
+    </select>
+
+    <!-- 通过ID批量查询 -->
+    <select id="selectBatchIds" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <foreach item="id" index="index" collection="idList"
+                 open="WHERE id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 通过主键ID查询 -->
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        WHERE id = #{id}
+    </select>
+
+    <!-- 通过主键ID选择更新数据 -->
+    <update id="updateById" parameterType="com.sagacity.entity.OmsCartItem">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="productId != null">
+                product_id = #{productId},
+            </if>
+             <if test="productSkuId != null">
+                product_sku_id = #{productSkuId},
+            </if>
+             <if test="memberId != null">
+                member_id = #{memberId},
+            </if>
+             <if test="quantity != null">
+                quantity = #{quantity},
+            </if>
+             <if test="price != null">
+                price = #{price},
+            </if>
+             <if test="productPic != null and productPic != ''">
+                product_pic = #{productPic},
+            </if>
+             <if test="productName != null and productName != ''">
+                product_name = #{productName},
+            </if>
+             <if test="productSubTitle != null and productSubTitle != ''">
+                product_sub_title = #{productSubTitle},
+            </if>
+             <if test="productSkuCode != null and productSkuCode != ''">
+                product_sku_code = #{productSkuCode},
+            </if>
+             <if test="memberNickname != null and memberNickname != ''">
+                member_nickname = #{memberNickname},
+            </if>
+             <if test="createDate != null">
+                create_date = #{createDate},
+            </if>
+             <if test="modifyDate != null">
+                modify_date = #{modifyDate},
+            </if>
+             <if test="deleteStatus != null">
+                delete_status = #{deleteStatus},
+            </if>
+             <if test="productCategoryId != null">
+                product_category_id = #{productCategoryId},
+            </if>
+             <if test="productBrand != null and productBrand != ''">
+                product_brand = #{productBrand},
+            </if>
+             <if test="productSn != null and productSn != ''">
+                product_sn = #{productSn},
+            </if>
+             <if test="productAttr != null and productAttr != ''">
+                product_attr = #{productAttr},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID逻辑删除 -->
+    <update id="disable" parameterType="com.sagacity.entity.OmsCartItem">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="traceId != null and traceId != ''">
+                trace_id = #{traceId},
+            </if>
+            <if test="modifyBy != null and modifyBy != ''">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="activeFlag != null">
+                active_flag = #{activeFlag},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+
+</mapper>

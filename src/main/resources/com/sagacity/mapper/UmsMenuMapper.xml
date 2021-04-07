@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagacity.mapper.UmsMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sagacity.entity.UmsMenu">
+        <id column="id" property="id" />
+        <result column="parent_id" property="parentId" />
+        <result column="create_time" property="createTime" />
+        <result column="title" property="title" />
+        <result column="level" property="level" />
+        <result column="sort" property="sort" />
+        <result column="name" property="name" />
+        <result column="icon" property="icon" />
+        <result column="hidden" property="hidden" />
+    </resultMap>
+
+    <!-- 表名称 -->
+    <sql id="Table_Name">
+        ums_menu
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, parent_id, create_time, title, level, sort, name, icon, hidden
+    </sql>
+
+    <sql id="Where_Trim">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="parentId != null">
+                AND parent_id = #{parentId}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime}
+            </if>
+            <if test="title != null and title != ''">
+                AND title = #{title}
+            </if>
+            <if test="level != null">
+                AND level = #{level}
+            </if>
+            <if test="sort != null">
+                AND sort = #{sort}
+            </if>
+            <if test="name != null and name != ''">
+                AND name = #{name}
+            </if>
+            <if test="icon != null and icon != ''">
+                AND icon = #{icon}
+            </if>
+            <if test="hidden != null">
+                AND hidden = #{hidden}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 新增数据 -->
+    <insert id="insert" parameterType="com.sagacity.entity.UmsMenu">
+        INSERT INTO <include refid="Table_Name" />(
+        <trim suffixOverrides=",">
+                id,
+                parent_id,
+                create_time,
+                title,
+                level,
+                sort,
+                name,
+                icon,
+                hidden,
+        </trim>
+        ) VALUE (
+        <trim suffixOverrides=",">
+                #{id},
+                #{parentId},
+                #{createTime},
+                #{title},
+                #{level},
+                #{sort},
+                #{name},
+                #{icon},
+                #{hidden},
+        </trim>
+        )
+    </insert>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.sagacity.entity.UmsMenu">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询条数 -->
+    <select id="selectCount" parameterType="com.sagacity.entity.UmsMenu" resultType="long">
+        SELECT
+            COUNT(*)
+        FROM
+        <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询符合条件的单条数据 -->
+    <select id="selectOne" parameterType="com.sagacity.entity.UmsMenu" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+        LIMIT 1
+    </select>
+
+    <!-- 通过ID批量查询 -->
+    <select id="selectBatchIds" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <foreach item="id" index="index" collection="idList"
+                 open="WHERE id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 通过主键ID查询 -->
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        WHERE id = #{id}
+    </select>
+
+    <!-- 通过主键ID选择更新数据 -->
+    <update id="updateById" parameterType="com.sagacity.entity.UmsMenu">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+             <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+             <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+             <if test="level != null">
+                level = #{level},
+            </if>
+             <if test="sort != null">
+                sort = #{sort},
+            </if>
+             <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+             <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+             <if test="hidden != null">
+                hidden = #{hidden},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID逻辑删除 -->
+    <update id="disable" parameterType="com.sagacity.entity.UmsMenu">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="traceId != null and traceId != ''">
+                trace_id = #{traceId},
+            </if>
+            <if test="modifyBy != null and modifyBy != ''">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="activeFlag != null">
+                active_flag = #{activeFlag},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+
+</mapper>

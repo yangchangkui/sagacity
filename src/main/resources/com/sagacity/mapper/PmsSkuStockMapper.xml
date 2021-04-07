@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagacity.mapper.PmsSkuStockMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sagacity.entity.PmsSkuStock">
+        <id column="id" property="id" />
+        <result column="product_id" property="productId" />
+        <result column="sku_code" property="skuCode" />
+        <result column="price" property="price" />
+        <result column="stock" property="stock" />
+        <result column="low_stock" property="lowStock" />
+        <result column="pic" property="pic" />
+        <result column="sale" property="sale" />
+        <result column="promotion_price" property="promotionPrice" />
+        <result column="lock_stock" property="lockStock" />
+        <result column="sp_data" property="spData" />
+    </resultMap>
+
+    <!-- 表名称 -->
+    <sql id="Table_Name">
+        pms_sku_stock
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, product_id, sku_code, price, stock, low_stock, pic, sale, promotion_price, lock_stock, sp_data
+    </sql>
+
+    <sql id="Where_Trim">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="productId != null">
+                AND product_id = #{productId}
+            </if>
+            <if test="skuCode != null and skuCode != ''">
+                AND sku_code = #{skuCode}
+            </if>
+            <if test="price != null">
+                AND price = #{price}
+            </if>
+            <if test="stock != null">
+                AND stock = #{stock}
+            </if>
+            <if test="lowStock != null">
+                AND low_stock = #{lowStock}
+            </if>
+            <if test="pic != null and pic != ''">
+                AND pic = #{pic}
+            </if>
+            <if test="sale != null">
+                AND sale = #{sale}
+            </if>
+            <if test="promotionPrice != null">
+                AND promotion_price = #{promotionPrice}
+            </if>
+            <if test="lockStock != null">
+                AND lock_stock = #{lockStock}
+            </if>
+            <if test="spData != null and spData != ''">
+                AND sp_data = #{spData}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 新增数据 -->
+    <insert id="insert" parameterType="com.sagacity.entity.PmsSkuStock">
+        INSERT INTO <include refid="Table_Name" />(
+        <trim suffixOverrides=",">
+                id,
+                product_id,
+                sku_code,
+                price,
+                stock,
+                low_stock,
+                pic,
+                sale,
+                promotion_price,
+                lock_stock,
+                sp_data,
+        </trim>
+        ) VALUE (
+        <trim suffixOverrides=",">
+                #{id},
+                #{productId},
+                #{skuCode},
+                #{price},
+                #{stock},
+                #{lowStock},
+                #{pic},
+                #{sale},
+                #{promotionPrice},
+                #{lockStock},
+                #{spData},
+        </trim>
+        )
+    </insert>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.sagacity.entity.PmsSkuStock">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询条数 -->
+    <select id="selectCount" parameterType="com.sagacity.entity.PmsSkuStock" resultType="long">
+        SELECT
+            COUNT(*)
+        FROM
+        <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询符合条件的单条数据 -->
+    <select id="selectOne" parameterType="com.sagacity.entity.PmsSkuStock" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+        LIMIT 1
+    </select>
+
+    <!-- 通过ID批量查询 -->
+    <select id="selectBatchIds" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <foreach item="id" index="index" collection="idList"
+                 open="WHERE id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 通过主键ID查询 -->
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        WHERE id = #{id}
+    </select>
+
+    <!-- 通过主键ID选择更新数据 -->
+    <update id="updateById" parameterType="com.sagacity.entity.PmsSkuStock">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="productId != null">
+                product_id = #{productId},
+            </if>
+             <if test="skuCode != null and skuCode != ''">
+                sku_code = #{skuCode},
+            </if>
+             <if test="price != null">
+                price = #{price},
+            </if>
+             <if test="stock != null">
+                stock = #{stock},
+            </if>
+             <if test="lowStock != null">
+                low_stock = #{lowStock},
+            </if>
+             <if test="pic != null and pic != ''">
+                pic = #{pic},
+            </if>
+             <if test="sale != null">
+                sale = #{sale},
+            </if>
+             <if test="promotionPrice != null">
+                promotion_price = #{promotionPrice},
+            </if>
+             <if test="lockStock != null">
+                lock_stock = #{lockStock},
+            </if>
+             <if test="spData != null and spData != ''">
+                sp_data = #{spData},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID逻辑删除 -->
+    <update id="disable" parameterType="com.sagacity.entity.PmsSkuStock">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="traceId != null and traceId != ''">
+                trace_id = #{traceId},
+            </if>
+            <if test="modifyBy != null and modifyBy != ''">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="activeFlag != null">
+                active_flag = #{activeFlag},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+
+</mapper>

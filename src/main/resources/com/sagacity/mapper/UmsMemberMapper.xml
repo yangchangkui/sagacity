@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagacity.mapper.UmsMemberMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sagacity.entity.UmsMember">
+        <id column="id" property="id" />
+        <result column="member_level_id" property="memberLevelId" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="nickname" property="nickname" />
+        <result column="phone" property="phone" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="icon" property="icon" />
+        <result column="gender" property="gender" />
+        <result column="birthday" property="birthday" />
+        <result column="city" property="city" />
+        <result column="job" property="job" />
+        <result column="personalized_signature" property="personalizedSignature" />
+        <result column="source_type" property="sourceType" />
+        <result column="integration" property="integration" />
+        <result column="growth" property="growth" />
+        <result column="luckey_count" property="luckeyCount" />
+        <result column="history_integration" property="historyIntegration" />
+    </resultMap>
+
+    <!-- 表名称 -->
+    <sql id="Table_Name">
+        ums_member
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, member_level_id, username, password, nickname, phone, status, create_time, icon, gender, birthday, city, job, personalized_signature, source_type, integration, growth, luckey_count, history_integration
+    </sql>
+
+    <sql id="Where_Trim">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="memberLevelId != null">
+                AND member_level_id = #{memberLevelId}
+            </if>
+            <if test="username != null and username != ''">
+                AND username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                AND password = #{password}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                AND nickname = #{nickname}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND phone = #{phone}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime}
+            </if>
+            <if test="icon != null and icon != ''">
+                AND icon = #{icon}
+            </if>
+            <if test="gender != null">
+                AND gender = #{gender}
+            </if>
+            <if test="birthday != null">
+                AND birthday = #{birthday}
+            </if>
+            <if test="city != null and city != ''">
+                AND city = #{city}
+            </if>
+            <if test="job != null and job != ''">
+                AND job = #{job}
+            </if>
+            <if test="personalizedSignature != null and personalizedSignature != ''">
+                AND personalized_signature = #{personalizedSignature}
+            </if>
+            <if test="sourceType != null">
+                AND source_type = #{sourceType}
+            </if>
+            <if test="integration != null">
+                AND integration = #{integration}
+            </if>
+            <if test="growth != null">
+                AND growth = #{growth}
+            </if>
+            <if test="luckeyCount != null">
+                AND luckey_count = #{luckeyCount}
+            </if>
+            <if test="historyIntegration != null">
+                AND history_integration = #{historyIntegration}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 新增数据 -->
+    <insert id="insert" parameterType="com.sagacity.entity.UmsMember">
+        INSERT INTO <include refid="Table_Name" />(
+        <trim suffixOverrides=",">
+                id,
+                member_level_id,
+                username,
+                password,
+                nickname,
+                phone,
+                status,
+                create_time,
+                icon,
+                gender,
+                birthday,
+                city,
+                job,
+                personalized_signature,
+                source_type,
+                integration,
+                growth,
+                luckey_count,
+                history_integration,
+        </trim>
+        ) VALUE (
+        <trim suffixOverrides=",">
+                #{id},
+                #{memberLevelId},
+                #{username},
+                #{password},
+                #{nickname},
+                #{phone},
+                #{status},
+                #{createTime},
+                #{icon},
+                #{gender},
+                #{birthday},
+                #{city},
+                #{job},
+                #{personalizedSignature},
+                #{sourceType},
+                #{integration},
+                #{growth},
+                #{luckeyCount},
+                #{historyIntegration},
+        </trim>
+        )
+    </insert>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.sagacity.entity.UmsMember">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询条数 -->
+    <select id="selectCount" parameterType="com.sagacity.entity.UmsMember" resultType="long">
+        SELECT
+            COUNT(*)
+        FROM
+        <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询符合条件的单条数据 -->
+    <select id="selectOne" parameterType="com.sagacity.entity.UmsMember" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+        LIMIT 1
+    </select>
+
+    <!-- 通过ID批量查询 -->
+    <select id="selectBatchIds" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <foreach item="id" index="index" collection="idList"
+                 open="WHERE id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 通过主键ID查询 -->
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        WHERE id = #{id}
+    </select>
+
+    <!-- 通过主键ID选择更新数据 -->
+    <update id="updateById" parameterType="com.sagacity.entity.UmsMember">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="memberLevelId != null">
+                member_level_id = #{memberLevelId},
+            </if>
+             <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+             <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+             <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+             <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+             <if test="status != null">
+                status = #{status},
+            </if>
+             <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+             <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+             <if test="gender != null">
+                gender = #{gender},
+            </if>
+             <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+             <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+             <if test="job != null and job != ''">
+                job = #{job},
+            </if>
+             <if test="personalizedSignature != null and personalizedSignature != ''">
+                personalized_signature = #{personalizedSignature},
+            </if>
+             <if test="sourceType != null">
+                source_type = #{sourceType},
+            </if>
+             <if test="integration != null">
+                integration = #{integration},
+            </if>
+             <if test="growth != null">
+                growth = #{growth},
+            </if>
+             <if test="luckeyCount != null">
+                luckey_count = #{luckeyCount},
+            </if>
+             <if test="historyIntegration != null">
+                history_integration = #{historyIntegration},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID逻辑删除 -->
+    <update id="disable" parameterType="com.sagacity.entity.UmsMember">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="traceId != null and traceId != ''">
+                trace_id = #{traceId},
+            </if>
+            <if test="modifyBy != null and modifyBy != ''">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="activeFlag != null">
+                active_flag = #{activeFlag},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+
+</mapper>

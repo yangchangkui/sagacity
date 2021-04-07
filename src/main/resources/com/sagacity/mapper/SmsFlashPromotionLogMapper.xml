@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagacity.mapper.SmsFlashPromotionLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sagacity.entity.SmsFlashPromotionLog">
+        <id column="id" property="id" />
+        <result column="member_id" property="memberId" />
+        <result column="product_id" property="productId" />
+        <result column="member_phone" property="memberPhone" />
+        <result column="product_name" property="productName" />
+        <result column="subscribe_time" property="subscribeTime" />
+        <result column="send_time" property="sendTime" />
+    </resultMap>
+
+    <!-- 表名称 -->
+    <sql id="Table_Name">
+        sms_flash_promotion_log
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, member_id, product_id, member_phone, product_name, subscribe_time, send_time
+    </sql>
+
+    <sql id="Where_Trim">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="memberId != null">
+                AND member_id = #{memberId}
+            </if>
+            <if test="productId != null">
+                AND product_id = #{productId}
+            </if>
+            <if test="memberPhone != null and memberPhone != ''">
+                AND member_phone = #{memberPhone}
+            </if>
+            <if test="productName != null and productName != ''">
+                AND product_name = #{productName}
+            </if>
+            <if test="subscribeTime != null">
+                AND subscribe_time = #{subscribeTime}
+            </if>
+            <if test="sendTime != null">
+                AND send_time = #{sendTime}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 新增数据 -->
+    <insert id="insert" parameterType="com.sagacity.entity.SmsFlashPromotionLog">
+        INSERT INTO <include refid="Table_Name" />(
+        <trim suffixOverrides=",">
+                id,
+                member_id,
+                product_id,
+                member_phone,
+                product_name,
+                subscribe_time,
+                send_time,
+        </trim>
+        ) VALUE (
+        <trim suffixOverrides=",">
+                #{id},
+                #{memberId},
+                #{productId},
+                #{memberPhone},
+                #{productName},
+                #{subscribeTime},
+                #{sendTime},
+        </trim>
+        )
+    </insert>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.sagacity.entity.SmsFlashPromotionLog">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询条数 -->
+    <select id="selectCount" parameterType="com.sagacity.entity.SmsFlashPromotionLog" resultType="long">
+        SELECT
+            COUNT(*)
+        FROM
+        <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询符合条件的单条数据 -->
+    <select id="selectOne" parameterType="com.sagacity.entity.SmsFlashPromotionLog" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+        LIMIT 1
+    </select>
+
+    <!-- 通过ID批量查询 -->
+    <select id="selectBatchIds" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <foreach item="id" index="index" collection="idList"
+                 open="WHERE id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 通过主键ID查询 -->
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        WHERE id = #{id}
+    </select>
+
+    <!-- 通过主键ID选择更新数据 -->
+    <update id="updateById" parameterType="com.sagacity.entity.SmsFlashPromotionLog">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="memberId != null">
+                member_id = #{memberId},
+            </if>
+             <if test="productId != null">
+                product_id = #{productId},
+            </if>
+             <if test="memberPhone != null and memberPhone != ''">
+                member_phone = #{memberPhone},
+            </if>
+             <if test="productName != null and productName != ''">
+                product_name = #{productName},
+            </if>
+             <if test="subscribeTime != null">
+                subscribe_time = #{subscribeTime},
+            </if>
+             <if test="sendTime != null">
+                send_time = #{sendTime},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID逻辑删除 -->
+    <update id="disable" parameterType="com.sagacity.entity.SmsFlashPromotionLog">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="traceId != null and traceId != ''">
+                trace_id = #{traceId},
+            </if>
+            <if test="modifyBy != null and modifyBy != ''">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="activeFlag != null">
+                active_flag = #{activeFlag},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+
+</mapper>

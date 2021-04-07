@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagacity.mapper.SmsCouponMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sagacity.entity.SmsCoupon">
+        <id column="id" property="id" />
+        <result column="type" property="type" />
+        <result column="name" property="name" />
+        <result column="platform" property="platform" />
+        <result column="count" property="count" />
+        <result column="amount" property="amount" />
+        <result column="per_limit" property="perLimit" />
+        <result column="min_point" property="minPoint" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="use_type" property="useType" />
+        <result column="note" property="note" />
+        <result column="publish_count" property="publishCount" />
+        <result column="use_count" property="useCount" />
+        <result column="receive_count" property="receiveCount" />
+        <result column="enable_time" property="enableTime" />
+        <result column="code" property="code" />
+        <result column="member_level" property="memberLevel" />
+    </resultMap>
+
+    <!-- 表名称 -->
+    <sql id="Table_Name">
+        sms_coupon
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, type, name, platform, count, amount, per_limit, min_point, start_time, end_time, use_type, note, publish_count, use_count, receive_count, enable_time, code, member_level
+    </sql>
+
+    <sql id="Where_Trim">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
+            <if test="name != null and name != ''">
+                AND name = #{name}
+            </if>
+            <if test="platform != null">
+                AND platform = #{platform}
+            </if>
+            <if test="count != null">
+                AND count = #{count}
+            </if>
+            <if test="amount != null">
+                AND amount = #{amount}
+            </if>
+            <if test="perLimit != null">
+                AND per_limit = #{perLimit}
+            </if>
+            <if test="minPoint != null">
+                AND min_point = #{minPoint}
+            </if>
+            <if test="startTime != null">
+                AND start_time = #{startTime}
+            </if>
+            <if test="endTime != null">
+                AND end_time = #{endTime}
+            </if>
+            <if test="useType != null">
+                AND use_type = #{useType}
+            </if>
+            <if test="note != null and note != ''">
+                AND note = #{note}
+            </if>
+            <if test="publishCount != null">
+                AND publish_count = #{publishCount}
+            </if>
+            <if test="useCount != null">
+                AND use_count = #{useCount}
+            </if>
+            <if test="receiveCount != null">
+                AND receive_count = #{receiveCount}
+            </if>
+            <if test="enableTime != null">
+                AND enable_time = #{enableTime}
+            </if>
+            <if test="code != null and code != ''">
+                AND code = #{code}
+            </if>
+            <if test="memberLevel != null">
+                AND member_level = #{memberLevel}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 新增数据 -->
+    <insert id="insert" parameterType="com.sagacity.entity.SmsCoupon">
+        INSERT INTO <include refid="Table_Name" />(
+        <trim suffixOverrides=",">
+                id,
+                type,
+                name,
+                platform,
+                count,
+                amount,
+                per_limit,
+                min_point,
+                start_time,
+                end_time,
+                use_type,
+                note,
+                publish_count,
+                use_count,
+                receive_count,
+                enable_time,
+                code,
+                member_level,
+        </trim>
+        ) VALUE (
+        <trim suffixOverrides=",">
+                #{id},
+                #{type},
+                #{name},
+                #{platform},
+                #{count},
+                #{amount},
+                #{perLimit},
+                #{minPoint},
+                #{startTime},
+                #{endTime},
+                #{useType},
+                #{note},
+                #{publishCount},
+                #{useCount},
+                #{receiveCount},
+                #{enableTime},
+                #{code},
+                #{memberLevel},
+        </trim>
+        )
+    </insert>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.sagacity.entity.SmsCoupon">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询条数 -->
+    <select id="selectCount" parameterType="com.sagacity.entity.SmsCoupon" resultType="long">
+        SELECT
+            COUNT(*)
+        FROM
+        <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询符合条件的单条数据 -->
+    <select id="selectOne" parameterType="com.sagacity.entity.SmsCoupon" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+        LIMIT 1
+    </select>
+
+    <!-- 通过ID批量查询 -->
+    <select id="selectBatchIds" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <foreach item="id" index="index" collection="idList"
+                 open="WHERE id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 通过主键ID查询 -->
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        WHERE id = #{id}
+    </select>
+
+    <!-- 通过主键ID选择更新数据 -->
+    <update id="updateById" parameterType="com.sagacity.entity.SmsCoupon">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="type != null">
+                type = #{type},
+            </if>
+             <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+             <if test="platform != null">
+                platform = #{platform},
+            </if>
+             <if test="count != null">
+                count = #{count},
+            </if>
+             <if test="amount != null">
+                amount = #{amount},
+            </if>
+             <if test="perLimit != null">
+                per_limit = #{perLimit},
+            </if>
+             <if test="minPoint != null">
+                min_point = #{minPoint},
+            </if>
+             <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+             <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+             <if test="useType != null">
+                use_type = #{useType},
+            </if>
+             <if test="note != null and note != ''">
+                note = #{note},
+            </if>
+             <if test="publishCount != null">
+                publish_count = #{publishCount},
+            </if>
+             <if test="useCount != null">
+                use_count = #{useCount},
+            </if>
+             <if test="receiveCount != null">
+                receive_count = #{receiveCount},
+            </if>
+             <if test="enableTime != null">
+                enable_time = #{enableTime},
+            </if>
+             <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+             <if test="memberLevel != null">
+                member_level = #{memberLevel},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID逻辑删除 -->
+    <update id="disable" parameterType="com.sagacity.entity.SmsCoupon">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="traceId != null and traceId != ''">
+                trace_id = #{traceId},
+            </if>
+            <if test="modifyBy != null and modifyBy != ''">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="activeFlag != null">
+                active_flag = #{activeFlag},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+
+</mapper>

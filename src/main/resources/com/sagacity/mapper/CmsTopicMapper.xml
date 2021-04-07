@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sagacity.mapper.CmsTopicMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sagacity.entity.CmsTopic">
+        <id column="id" property="id" />
+        <result column="category_id" property="categoryId" />
+        <result column="name" property="name" />
+        <result column="create_time" property="createTime" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="attend_count" property="attendCount" />
+        <result column="attention_count" property="attentionCount" />
+        <result column="read_count" property="readCount" />
+        <result column="award_name" property="awardName" />
+        <result column="attend_type" property="attendType" />
+        <result column="content" property="content" />
+    </resultMap>
+
+    <!-- 表名称 -->
+    <sql id="Table_Name">
+        cms_topic
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, category_id, name, create_time, start_time, end_time, attend_count, attention_count, read_count, award_name, attend_type, content
+    </sql>
+
+    <sql id="Where_Trim">
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+            <if test="name != null and name != ''">
+                AND name = #{name}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime}
+            </if>
+            <if test="startTime != null">
+                AND start_time = #{startTime}
+            </if>
+            <if test="endTime != null">
+                AND end_time = #{endTime}
+            </if>
+            <if test="attendCount != null">
+                AND attend_count = #{attendCount}
+            </if>
+            <if test="attentionCount != null">
+                AND attention_count = #{attentionCount}
+            </if>
+            <if test="readCount != null">
+                AND read_count = #{readCount}
+            </if>
+            <if test="awardName != null and awardName != ''">
+                AND award_name = #{awardName}
+            </if>
+            <if test="attendType != null and attendType != ''">
+                AND attend_type = #{attendType}
+            </if>
+            <if test="content != null">
+                AND content = #{content}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 新增数据 -->
+    <insert id="insert" parameterType="com.sagacity.entity.CmsTopic">
+        INSERT INTO <include refid="Table_Name" />(
+        <trim suffixOverrides=",">
+                id,
+                category_id,
+                name,
+                create_time,
+                start_time,
+                end_time,
+                attend_count,
+                attention_count,
+                read_count,
+                award_name,
+                attend_type,
+                content,
+        </trim>
+        ) VALUE (
+        <trim suffixOverrides=",">
+                #{id},
+                #{categoryId},
+                #{name},
+                #{createTime},
+                #{startTime},
+                #{endTime},
+                #{attendCount},
+                #{attentionCount},
+                #{readCount},
+                #{awardName},
+                #{attendType},
+                #{content},
+        </trim>
+        )
+    </insert>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap" parameterType="com.sagacity.entity.CmsTopic">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询条数 -->
+    <select id="selectCount" parameterType="com.sagacity.entity.CmsTopic" resultType="long">
+        SELECT
+            COUNT(*)
+        FROM
+        <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+    </select>
+
+    <!-- 查询符合条件的单条数据 -->
+    <select id="selectOne" parameterType="com.sagacity.entity.CmsTopic" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <include refid="Where_Trim" />
+        LIMIT 1
+    </select>
+
+    <!-- 通过ID批量查询 -->
+    <select id="selectBatchIds" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        <foreach item="id" index="index" collection="idList"
+                 open="WHERE id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 通过主键ID查询 -->
+    <select id="selectById" parameterType="long" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            <include refid="Table_Name" />
+        WHERE id = #{id}
+    </select>
+
+    <!-- 通过主键ID选择更新数据 -->
+    <update id="updateById" parameterType="com.sagacity.entity.CmsTopic">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+             <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+             <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+             <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+             <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+             <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+             <if test="attendCount != null">
+                attend_count = #{attendCount},
+            </if>
+             <if test="attentionCount != null">
+                attention_count = #{attentionCount},
+            </if>
+             <if test="readCount != null">
+                read_count = #{readCount},
+            </if>
+             <if test="awardName != null and awardName != ''">
+                award_name = #{awardName},
+            </if>
+             <if test="attendType != null and attendType != ''">
+                attend_type = #{attendType},
+            </if>
+             <if test="content != null">
+                content = #{content},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID逻辑删除 -->
+    <update id="disable" parameterType="com.sagacity.entity.CmsTopic">
+        UPDATE <include refid="Table_Name" />
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="traceId != null and traceId != ''">
+                trace_id = #{traceId},
+            </if>
+            <if test="modifyBy != null and modifyBy != ''">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="activeFlag != null">
+                active_flag = #{activeFlag},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+
+
+
+</mapper>
